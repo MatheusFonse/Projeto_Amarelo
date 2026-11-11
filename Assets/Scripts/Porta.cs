@@ -1,51 +1,32 @@
-using System.ComponentModel;
+
 using UnityEngine;
-using UnityEngine.SceneManagement; //Obrigatório para mudar a cena
+
 public class Porta : MonoBehaviour
 {
-    public bool correta = false;               
-    public bool aberta = false;                
+    public Transform destino;
 
-    [Header("Movimento ao abrir")]
-    public Vector3 direcao = Vector3.right;    
-    public float distanciaAbrir = 1.5f;       
-    public float velocidade = 2f;
-
-    [Header("Proxima Fase")]
-    public string ProximaFase = "Fase2";
-    public float TempoAntesDaTroca = 2f;
-
-    Vector3 posicaoAberta;
-
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-       
-        posicaoAberta = transform.position + direcao.normalized * distanciaAbrir;
-    }
+        CharacterController jogador =
+            other.GetComponentInParent<CharacterController>();
 
- 
-    public string Interagir()
-    {
-        if (correta)
+        if (jogador != null &&
+            jogador.CompareTag("Player"))
         {
-            aberta = true;
-            Invoke(nameof(IrParaProximaFase), TempoAntesDaTroca);
-            return "Você acertou a porta!";
-        }
-        return "Trancada! Tente outra porta.";
-    }
+            if (Inventario.instancia.TemItem("(Chave)"))
+            {
+                Inventario.instancia.RemoverItem("(Chave)");
 
-    void Update()
-    {
-      
-        if (aberta)
-        {
-            transform.position = Vector3.MoveTowards(
-                transform.position, posicaoAberta, velocidade * Time.deltaTime);
+                jogador.enabled = false;
+                jogador.transform.position = destino.position;
+                jogador.enabled = true;
+
+                Debug.Log("Porta aberta!");
+            }
+            else
+            {
+                Debug.Log("Você precisa de uma chave!");
+            }
         }
-    }
-    void IrParaProximaFase()
-    {
-        SceneManager.LoadScene(ProximaFase);
     }
 }

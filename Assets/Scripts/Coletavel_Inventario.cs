@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ColetavelIventariio : MonoBehaviour
+public class ColetavelInventario : MonoBehaviour
 {
     public string nomeDoItem = "Coletável";
     public float velocidadeGiro = 90f;

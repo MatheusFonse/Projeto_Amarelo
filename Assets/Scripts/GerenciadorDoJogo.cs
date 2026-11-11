@@ -23,6 +23,6 @@ public class GerenciadorDoJogo : MonoBehaviour
     }
     void AtualizarTexto()
     {
-        textoPontuacao.text = "O valor de Dinheiro Coletado: " + pontuacao;
+        textoPontuacao.text = " Dinheiro Coletado: $ " + pontuacao;
     }
 }
